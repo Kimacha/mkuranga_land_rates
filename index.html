@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Mkuranga Land Value Rates</title>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  </head>
+  <body>
+
+  <style>
+  #features {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 300px;
+      overflow: auto;
+      background: rgba(255, 255, 255, 0.8);
+      color: black;
+      }
+
+  .mapboxgl-popup {
+        max-width: 800px !important;
+        color: black;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+  </style>
+    <div class="sidebar pad2" style="color: white;">
+    <div id="details_mk">
+      <h1>Mkuranga Land Rates</h1>
+      <b></b>
+      <p>Mkuranga is one of the six districts of Pwani Region in Tanzania. It is bordered to the north by Dar es Salaam, to the east by the Indian Ocean, to the south by Rufiji District, and to the west by Kisarawe District.</p>
+      <b></b>
+      <p>The map on the right pane provides details of land rates per square meter(/sqm).</p>
+    </div>
+    </div>
+
+    <div id="map" class="map pad2"></div>
+    <!-- <pre id="features"></pre> -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2tpbWFjaGEiLCJhIjoiY2ptMGNybngzMGIzcTNrcXk2ZGppYnJjMCJ9.j60shrPtcsdeIPbjDInrGQ';
+        // This adds the map to your page
+        var map = new mapboxgl.Map({
+        // container id specified in the HTML
+        container: 'map',
+        // style URL
+        style: 'mapbox://styles/wkimacha/cjul13o7n1n2y1fnw9md4fto9',
+        // initial position in [lon, lat] format
+        center: [39.225, -7.27],
+        // initial zoom
+        zoom: 9.32,
+        // pitch
+        pitch: 45,
+        //bearing
+        bearing: -17.6,
+        // anti-alias
+        antialias: true
+        });
+
+
+        
+          map.on('click','mkuranga',function(e){
+            // var features = map.queryRenderedFeatures(e.);
+
+            // map.getCanvas().style.cursor = 'pointer';
+
+            // var village = e.features[0].properties.Village_N;
+            // var coordinates = e.features[0].geometry.coordinates.slice();
+            function openCity(evt, cityName) {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByClassName("tabcontent");
+              for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+              }
+              tablinks = document.getElementsByClassName("tablinks");
+              for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+              }
+              document.getElementById(cityName).style.display = "block";
+              evt.currentTarget.className += " active";
+            }
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(`
+                  <div class="w3-bar w3-black">
+                    <button class="w3-bar-item w3-button tablinks" onClick=openCity(event,'Unsurveyed')>Unsurveyed</button>
+                    <button class="w3-bar-item w3-button tablinks" onClick=openCity(event,'Surveyed')>Surveyed</button>
+                  </div>
+                  <div id="Unsurveyed" class="tabcontent">
+                  <table id="Unsurveyed" class="Un_surveyed">
+                    <tr>
+                        <td colspan="3"><b>${e.features[0].properties.Vil_Mtaa_N} Land Value Rates</b></td>
+
+                    </tr>
+                    <tr>
+                        <td>Name of Ward</td>
+                        <td>:</td>
+                        <td>${e.features[0].properties.Ward_Name}</td>
+                    </tr>
+                    <tr>
+                    <td colspan="3"><b>Unsurveyed:</b></td>
+                    </tr>
+                    <tr>
+                        <td>Residential</td>
+                        <td>:</td>
+                        <td>${e.features[0].properties.un_res}Tshs</td>
+                    </tr>
+                    <tr>
+                        <td>Commercial</td>
+                        <td>:</td>
+                        <td>${e.features[0].properties.un_com}Tshs</td>
+                    </tr>
+                    <tr>
+                        <td>Residential/Commercial</td>
+                        <td>:</td>
+                        <td>${e.features[0].properties.un_rescom}Tshs</td>
+                    </tr>
+                    <tr>
+                        <td>Institution</td>
+                        <td>:</td>
+                        <td>${e.features[0].properties.un_insti}Tshs</td>
+                    </tr>
+                    <tr>
+                        <td>Industrial</td>
+                        <td>:</td>
+                        <td>${e.features[0].properties.un_indust}Tshs</td>
+                    </tr>
+                    </table>
+                    </div>
+
+                    <!-- Un_surveyed -->
+                    <div id="Unsurveyed" class="tabcontent">
+                    <table id="Unsurveyed" class="Un_surveyed" style="display:none">
+                      <tr>
+                          <td colspan="3"><b>${e.features[0].properties.Vil_Mtaa_N} Land Value Rates</b></td>
+
+                      </tr>
+                      <tr>
+                          <td colspan="3"><b>${e.features[0].properties.Vil_Mtaa_N} Land Value Rates</b></td>
+
+                      </tr>
+                      <tr>
+                          <td>Name of Ward</td>
+                          <td>:</td>
+                          <td>${e.features[0].properties.Ward_Name}</td>
+                      </tr>
+                      <tr>
+                      <td colspan="3"><b>Unsurveyed:</b></td>
+                      </tr>
+                      <tr>
+                          <td>Residential</td>
+                          <td>:</td>
+                          <td>${e.features[0].properties.un_res}Tshs</td>
+                      </tr>
+                      <tr>
+                          <td>Commercial</td>
+                          <td>:</td>
+                          <td>${e.features[0].properties.un_com}Tshs</td>
+                      </tr>
+                      <tr>
+                          <td>Residential/Commercial</td>
+                          <td>:</td>
+                          <td>${e.features[0].properties.un_rescom}Tshs</td>
+                      </tr>
+                      <tr>
+                          <td>Institution</td>
+                          <td>:</td>
+                          <td>${e.features[0].properties.un_insti}Tshs</td>
+                      </tr>
+                      <tr>
+                          <td>Industrial</td>
+                          <td>:</td>
+                          <td>${e.features[0].properties.un_indust}Tshs</td>
+                      </tr>
+                      </table>
+                      </div>
+                    `)
+                .addTo(map);
+          });
+          function openSurvey(cityName) {
+              var i;
+              var x = document.getElementsByClassName("Un_surveyed");
+              for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+              }
+              document.getElementById(cityName).style.display = "block";
+              }
+
+          map.on('mouseenter', 'mkuranga', function () {
+            map.getCanvas().style.cursor = 'pointer';
+            });
+
+          map.on('mouseleave', 'mkuranga', function () {
+            map.getCanvas().style.cursor = '';
+              });
+        // });
+    </script>
+
+  </body>
+</html>
